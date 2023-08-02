@@ -21,7 +21,7 @@ function App() {
     let todaysDate = date.toLocaleString("ja-JP", {dateStyle: "short"}).replaceAll("/","-");
 
     function handleAddButton() {
-        setContacts([...contacts, {
+        const newContact = {
             id: id,
             firstName: "",
             lastName: "",
@@ -35,8 +35,12 @@ function App() {
                 zip: "",
                 country: ""
             }
-        }])
+        };
+        setContacts([...contacts,
+            newContact
+        ]);
         setId(id + 1);
+        setSelectedContact(newContact);
     }
 
     return (
@@ -99,7 +103,7 @@ function List({contacts, selectedContact, setSelectedContact}) {
                         id = {`b-${contact.id}`}
                         >
                         {(contact.firstName || contact.lastName) ?
-                            `${contact.firstName} ${contact.lastName}` : "New Contact"}
+                            `${contact.firstName ?? ""} ${contact.lastName ?? ""}` : "New Contact"}
                     </button>
                 );
             })}
