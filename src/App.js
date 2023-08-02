@@ -5,11 +5,11 @@ function App() {
     const [id, setId] = useState(0);
 
     const initialList = [
-        {id: -10, image: "", firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
+        {id: -10, image: process.env.PUBLIC_URL+"profile-pics/demo1.jpg", firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
             // birthday: {year: "1982", month: "May", day: "24"},
             birthday: "1982-05-24",
             address: {street: "254 Banana Street", city: "Sugar Town", state: "Arkansas", zip: "12345", country: "United States"}},
-        {id: -11, image: "", firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
+        {id: -11, image: process.env.PUBLIC_URL+"profile-pics/demo2.jpg", firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
             // birthday: {year: "2001", month: "February", day: "12"},
             birthday: "2001-02-12",
             address: {street: "312 King Kool Street", city: "New Highlands", state: "Washington", zip: "54321", country: "United Kingdom"}},
