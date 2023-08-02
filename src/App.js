@@ -6,12 +6,19 @@ function App() {
 
     const initialList = [
         {id: -10, firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
+            // birthday: {year: "1982", month: "May", day: "24"},
+            birthday: "1982-05-24",
             address: {street: "254 Banana Street", city: "Sugar Town", state: "Arkansas", zip: "12345", country: "United States"}},
         {id: -11, firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
+            // birthday: {year: "2001", month: "February", day: "12"},
+            birthday: "2001-02-12",
             address: {street: "312 King Kool Street", city: "New Highlands", state: "Washington", zip: "54321", country: "United Kingdom"}},
     ];
     const [contacts, setContacts] = useState(initialList);
     const [selectedContact, setSelectedContact] = useState(null);
+
+    let date = new Date();
+    let todaysDate = date.toLocaleString("ja-JP", {dateStyle: "short"}).replaceAll("/","-");
 
     function handleAddButton() {
         setContacts([...contacts, {
@@ -20,6 +27,7 @@ function App() {
             lastName: "",
             email: "",
             phoneNumber: "",
+            birthday: "",
             address: {
                 street: "",
                 city: "",
@@ -65,6 +73,7 @@ function App() {
                                     setContacts = {setContacts}
                                     selectedContact = {selectedContact}
                                     setSelectedContact = {setSelectedContact}
+                                    todaysDate = {todaysDate}
                                 />
                         </div>) : null}
             </div>
@@ -98,7 +107,7 @@ function List({contacts, selectedContact, setSelectedContact}) {
     );
 }
 
-function Content({setContacts, selectedContact, setSelectedContact}) {
+function Content({setContacts, selectedContact, setSelectedContact, todaysDate}) {
     function handleNameChange(name, value) {
         setContacts(prevContacts =>
             prevContacts.map(contact => {
@@ -207,7 +216,23 @@ function Content({setContacts, selectedContact, setSelectedContact}) {
                 </div>
                 <div
                     className = "input-container">
-                {/*  birthday goes here      */}
+                        <div
+                            className = "input-container-mini">
+                                <p
+                                    className = "input-field">
+                                    Birthday
+                                </p>
+                                <input
+                                    type = "date"
+                                    name = "birthday"
+                                    max = {todaysDate}
+                                    value = {selectedContact.birthday}
+                                    onChange = {e => {
+                                        handleNameChange(e.target.name, e.target.value);
+                                    }}
+                                    id = {`i-bD-${selectedContact.id}`}
+                                />
+                        </div>
                 </div>
                 <div
                     className = "input-separator">
