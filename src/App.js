@@ -5,11 +5,11 @@ function App() {
     const [id, setId] = useState(0);
 
     const initialList = [
-        {id: -10, firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
+        {id: -10, image: "", firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
             // birthday: {year: "1982", month: "May", day: "24"},
             birthday: "1982-05-24",
             address: {street: "254 Banana Street", city: "Sugar Town", state: "Arkansas", zip: "12345", country: "United States"}},
-        {id: -11, firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
+        {id: -11, image: "", firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
             // birthday: {year: "2001", month: "February", day: "12"},
             birthday: "2001-02-12",
             address: {street: "312 King Kool Street", city: "New Highlands", state: "Washington", zip: "54321", country: "United Kingdom"}},
@@ -23,6 +23,7 @@ function App() {
     function handleAddButton() {
         const newContact = {
             id: id,
+            image: "",
             firstName: "",
             lastName: "",
             email: "",
@@ -139,6 +140,21 @@ function Content({setContacts, selectedContact, setSelectedContact, todaysDate})
             }));
     }
 
+    function handleFileChange(name, files) {
+        const fileUrl = URL.createObjectURL(files[0]);
+
+        setContacts(prevContacts =>
+            prevContacts.map(contact => {
+                if (contact.id === selectedContact.id) {
+                    const newContact = {...contact, [name]: fileUrl};
+                    setSelectedContact(newContact);
+                    return newContact;
+                }
+
+                return contact;
+            }));
+    }
+
     function hyphenatedPhoneNumber(number) {
         // const firstThreeChars = number.slice(0, 3);
         // const nextThreeChars = number.slice(3, 6);
@@ -162,7 +178,41 @@ function Content({setContacts, selectedContact, setSelectedContact, todaysDate})
             className = "details">
                 <div
                     className = "details-header">
-                {/*    will be an image, can change. if null, then show initials of name */}
+                        <div
+                            className = "details-header-image">
+                                {selectedContact.image ?
+                                    <img
+                                        className = "details-header-image-profile"
+                                        src = {selectedContact.image}
+                                        alt = {`${selectedContact.firstName ?
+                                            selectedContact.firstName[0] :
+                                            ""}${selectedContact.lastName ?
+                                            selectedContact.lastName[0] :
+                                            ""}`}
+                                    /> :
+                                    <div
+                                        className = "details-header-image-initials">
+                                            {`${selectedContact.firstName ?
+                                                selectedContact.firstName[0] :
+                                                ""}${selectedContact.lastName ?
+                                                selectedContact.lastName[0] :
+                                                ""}`}
+                                    </div>
+                                }
+
+                        </div>
+                        <label
+                            className = "details-header-input">
+                                <span>{selectedContact.image ? "Edit Photo" : "Add Photo"}</span>
+                                <input
+                                    type = "file"
+                                    name = "image"
+                                    accept = "image/png, image/jpeg"
+                                    onChange = {e => {
+                                        handleFileChange(e.target.name, e.target.files);
+                                    }}
+                                />
+                        </label>
                 </div>
                 <div
                     className = "input-container">

@@ -66,8 +66,62 @@ body {
 }
 
 .details-header {
-  height: 200px;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  align-items: center;
 }
+
+.details-header-image {
+  padding: 20px;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.details-header-image-profile {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%
+}
+
+.details-header-image-initials {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.details-header-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details-header-input input {
+  display: none;
+}
+
+.details-header-input span {
+  background-color: transparent;
+  color: #0070c9;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  border: none;
+}
+
+.details-header-input span:hover {
+  color: rgba(0, 112, 201, 0.3);
+}
+
 
 .input-container {
   padding-left: 8px;
