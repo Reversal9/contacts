@@ -26,37 +26,42 @@ function App() {
     return (
         <div
             className = "app-container">
-                <div
-                    className = "header">
-                        <h1>Contacts</h1>
-                        <button
-                            className = "add-button"
-                            onClick = {() => {
-                                handleAddButton();
-                            }}>
-                            +
-                        </button>
-                </div>
-                <div
-                    className = "container">
-                        <List
-                            contacts = {contacts}
-                            selectedContact = {selectedContact}
-                            setSelectedContact = {setSelectedContact}
-                        />
-                </div>
-
-                {selectedContact ? (
+            <div
+                className = "left-container">
                     <div
-                        className = "content">
-                            <p>Test</p>
-                            <Content
+                        className = "header">
+                            <h1>Contacts</h1>
+                            <button
+                                className = "add-button"
+                                onClick = {() => {
+                                    handleAddButton();
+                                }}>
+                                +
+                            </button>
+                    </div>
+                    <div
+                        className = "contact-list">
+                            <List
+                                contacts = {contacts}
                                 selectedContact = {selectedContact}
                                 setSelectedContact = {setSelectedContact}
                             />
-                    </div>) : null}
+                    </div>
+            </div>
+            <div
+                className = "right-container">
+                    {selectedContact ? (
+                        <div
+                            className = "content">
+                                <Content
+                                    setContacts = {setContacts}
+                                    selectedContact = {selectedContact}
+                                    setSelectedContact = {setSelectedContact}
+                                />
+                        </div>) : null}
+            </div>
         </div>
-    );
+);
 }
 
 function List({contacts, selectedContact, setSelectedContact}) {
@@ -65,45 +70,70 @@ function List({contacts, selectedContact, setSelectedContact}) {
     }
 
     return (
-        <ul
-            className = "contacts-list">
-                {contacts.map(contact => {
-                    return (
-                        <button
-                            className = {`contact-button ${selectedContact === contact ?
-                                'selected' : ''}`}
-                            onClick = {() => {
-                                handleSelectedContact(contact.id);
-                            }}
-                            id = {`b-${contact.id}`}
-                            >
-                            {(contact.firstName && contact.lastName) ?
-                                `${contact.firstName} ${contact.lastName}` : "New Contact"}
-                        </button>
-                    );
-                })}
+        <ul>
+            {contacts.map(contact => {
+                return (
+                    <button
+                        className = {`contact-button ${selectedContact === contact ?
+                            'selected' : ''}`}
+                        onClick = {() => {
+                            handleSelectedContact(contact.id);
+                        }}
+                        id = {`b-${contact.id}`}
+                        >
+                        {(contact.firstName || contact.lastName) ?
+                            `${contact.firstName} ${contact.lastName}` : "New Contact"}
+                    </button>
+                );
+            })}
         </ul>
     );
 }
 
-function Content({selectedContact, setSelectedContact}) {
-    function handleFirstNameChange(newFirstName) {
-        setSelectedContact(contact => {
-            return {...contact, firstName: newFirstName};
-        });
+function Content({setContacts, selectedContact, setSelectedContact}) {
+    function handleNameChange(name, value) {
+        setContacts(prevContacts =>
+            prevContacts.map(contact => {
+                if (contact.id === selectedContact.id) {
+                    const newContact = {...contact, [name]: value};
+                    setSelectedContact(newContact);
+                    return newContact;
+                }
+
+                return contact;
+        }));
     }
 
     return (
         <div
-            className = "content">
-                <input
-                    // className = ""
-                    value = {selectedContact.firstName}
-                    onChange = {e => {
-                        handleFirstNameChange(e.target.value);
-                    }}
-                    id = {`i-${selectedContact.id}`}
-                />
+            className = "details">
+                <div
+                    className = "details-header">
+                {/*    will be an image */}
+                </div>
+                <div
+                    className = "input-container">
+                        <input
+                            // className = ""
+                            name = "firstName"
+                            placeholder = "First name"
+                            value = {selectedContact.firstName}
+                            onChange = {e => {
+                                handleNameChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-${selectedContact.id}`}
+                        />
+                        <input
+                            // className = ""
+                            name = "lastName"
+                            placeholder = "Last name"
+                            value = {selectedContact.lastName}
+                            onChange = {e => {
+                                handleNameChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-${selectedContact.id}`}
+                        />
+                </div>
         </div>
     );
 }
