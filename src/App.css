@@ -53,6 +53,9 @@ body {
   display: flex;
   align-items: center;
   padding: 16px;
+
+  width: 200px;
+  background-color: #282c34;
 }
 
 .header h1 {
@@ -62,9 +65,20 @@ body {
 
 .container {
   flex: 1;
-  display: flex;
+  /*display: flex;*/
   padding: 16px;
   flex-direction: column;
+
+  width: 200px;
+  background-color: #61dafb;
+}
+
+.content {
+  flex: 1;
+  /*background-color: #f8f8f8;*/
+  padding: 16px;
+
+  background-color: darkred;
 }
 
 .add-button {
@@ -124,10 +138,4 @@ ul {
 .contact-button.selected {
   background-color: #007bff;
   color: #fff;
-}
-
-.editing-window {
-  flex: 1;
-  background-color: #f8f8f8;
-  padding: 16px;
 }

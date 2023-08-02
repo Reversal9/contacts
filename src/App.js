@@ -41,17 +41,27 @@ function App() {
                     className = "container">
                         <List
                             contacts = {contacts}
-                            selectedContact = {selectedContact} //maybe not needed, keeping for now.
+                            selectedContact = {selectedContact}
                             setSelectedContact = {setSelectedContact}
                         />
                 </div>
+
+                {selectedContact ? (
+                    <div
+                        className = "content">
+                            <p>Test</p>
+                            <Content
+                                selectedContact = {selectedContact}
+                                setSelectedContact = {setSelectedContact}
+                            />
+                    </div>) : null}
         </div>
     );
 }
 
 function List({contacts, selectedContact, setSelectedContact}) {
     function handleSelectedContact(contactId) {
-        setSelectedContact(contactId);
+        setSelectedContact(contacts.find(contact => contact.id === contactId));
     }
 
     return (
@@ -60,16 +70,41 @@ function List({contacts, selectedContact, setSelectedContact}) {
                 {contacts.map(contact => {
                     return (
                         <button
-                            className = {`contact-button ${selectedContact === contact.id ? 'selected' : ''}`}
+                            className = {`contact-button ${selectedContact === contact ?
+                                'selected' : ''}`}
                             onClick = {() => {
                                 handleSelectedContact(contact.id);
                             }}
+                            id = {`b-${contact.id}`}
                             >
-                                {`${contact.firstName} ${contact.lastName}`}
+                            {(contact.firstName && contact.lastName) ?
+                                `${contact.firstName} ${contact.lastName}` : "New Contact"}
                         </button>
                     );
                 })}
         </ul>
+    );
+}
+
+function Content({selectedContact, setSelectedContact}) {
+    function handleFirstNameChange(newFirstName) {
+        setSelectedContact(contact => {
+            return {...contact, firstName: newFirstName};
+        });
+    }
+
+    return (
+        <div
+            className = "content">
+                <input
+                    // className = ""
+                    value = {selectedContact.firstName}
+                    onChange = {e => {
+                        handleFirstNameChange(e.target.value);
+                    }}
+                    id = {`i-${selectedContact.id}`}
+                />
+        </div>
     );
 }
 
