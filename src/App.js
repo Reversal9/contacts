@@ -5,11 +5,10 @@ function App() {
     const [id, setId] = useState(0);
 
     const initialList = [
-        {id: -10, firstName: "Jeremy", lastName: "Wang"},
-        {id: -11, firstName: "Chris", lastName: "Zhang"},
-        {id: -12, firstName: "Sam", lastName: "Chan"},
-        {id: -13, firstName: "Bob", lastName: "Williams"},
-        {id: -14, firstName: "Jeff", lastName: "Getting"}
+        {id: -10, firstName: "Jeremy", lastName: "Wang", email: "jeremywang08@gmail.com", phoneNumber: "1234567890",
+            address: {street: "254 Banana Street", city: "Sugar Town", state: "Arkansas", zip: "12345", country: "United States"}},
+        {id: -11, firstName: "Chris", lastName: "Zhang", email: "ChrisZhangForTheWin@yahoo.com", phoneNumber: "9876543210",
+            address: {street: "312 King Kool Street", city: "New Highlands", state: "Washington", zip: "54321", country: "United Kingdom"}},
     ];
     const [contacts, setContacts] = useState(initialList);
     const [selectedContact, setSelectedContact] = useState(null);
@@ -18,7 +17,16 @@ function App() {
         setContacts([...contacts, {
             id: id,
             firstName: "",
-            lastName: ""
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            address: {
+                street: "",
+                city: "",
+                state: "",
+                zip: "",
+                country: ""
+            }
         }])
         setId(id + 1);
     }
@@ -104,35 +112,161 @@ function Content({setContacts, selectedContact, setSelectedContact}) {
         }));
     }
 
+    function handleAddressChange(name, value) {
+        setContacts(prevContacts =>
+            prevContacts.map(contact => {
+                if (contact.id === selectedContact.id) {
+                    const nextAddress = {...contact.address, [name]: value}
+                    const newContact = {...contact, address: nextAddress};
+                    setSelectedContact(newContact);
+                    return newContact;
+                }
+
+                return contact;
+            }));
+    }
+
+    function hyphenatedPhoneNumber(number) {
+        // const firstThreeChars = number.slice(0, 3);
+        // const nextThreeChars = number.slice(3, 6);
+        // const restChars = number.slice(6);
+        //
+        // if (number.length > 6) {
+        //     return `${firstThreeChars}-${nextThreeChars}-${restChars}`
+        // } else if (number.length > 3) {
+        //     return `${firstThreeChars}-${nextThreeChars}`
+        // } else {
+        //     return `${firstThreeChars}`
+        // }
+
+        // May be worked on in future to hyphenate phone numbers automatically
+
+        return number;
+    }
+
     return (
         <div
             className = "details">
                 <div
                     className = "details-header">
-                {/*    will be an image */}
+                {/*    will be an image, can change. if null, then show initials of name */}
                 </div>
                 <div
                     className = "input-container">
                         <input
-                            // className = ""
+                            type = "text"
                             name = "firstName"
                             placeholder = "First name"
                             value = {selectedContact.firstName}
                             onChange = {e => {
                                 handleNameChange(e.target.name, e.target.value);
                             }}
-                            id = {`i-${selectedContact.id}`}
+                            id = {`i-fN-${selectedContact.id}`}
                         />
                         <input
-                            // className = ""
+                            type = "text"
                             name = "lastName"
                             placeholder = "Last name"
                             value = {selectedContact.lastName}
                             onChange = {e => {
                                 handleNameChange(e.target.name, e.target.value);
                             }}
-                            id = {`i-${selectedContact.id}`}
+                            id = {`i-lN-${selectedContact.id}`}
                         />
+                        <input
+                            type = "email"
+                            name = "email"
+                            placeholder = "Email address"
+                            value = {selectedContact.email}
+                            onChange = {e => {
+                                handleNameChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-eA-${selectedContact.id}`}
+                        />
+                </div>
+                <div
+                    className = "input-separator">
+                </div>
+                <div
+                    className = "input-container">
+                        <input
+                            type = "number"
+                            pattern = "[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            maxLength = "10"
+                            name = "phoneNumber"
+                            placeholder = "123-456-7890"
+                            value = {hyphenatedPhoneNumber(selectedContact.phoneNumber)}
+                            onChange = {e => {
+                                handleNameChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-pN-${selectedContact.id}`}
+                        />
+                </div>
+                <div
+                    className = "input-separator">
+                </div>
+                <div
+                    className = "input-container">
+                {/*  birthday goes here      */}
+                </div>
+                <div
+                    className = "input-separator">
+                </div>
+                <div
+                    className = "input-container">
+                    <input
+                        type = "text"
+                        name = "street"
+                        placeholder = "Street"
+                        value = {selectedContact.address.street}
+                        onChange = {e => {
+                            handleAddressChange(e.target.name, e.target.value);
+                        }}
+                        id = {`i-a-sN-${selectedContact.id}`}
+                    />
+                    <input
+                        type = "text"
+                        name = "city"
+                        placeholder = "City"
+                        value = {selectedContact.address.city}
+                        onChange = {e => {
+                            handleAddressChange(e.target.name, e.target.value);
+                        }}
+                        id = {`i-a-cN-${selectedContact.id}`}
+                    />
+                    <div
+                        className = "input-container-mini">
+                        <input
+                            type = "text"
+                            name = "state"
+                            placeholder = "State"
+                            value = {selectedContact.address.state}
+                            onChange = {e => {
+                                handleAddressChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-a-s-${selectedContact.id}`}
+                        />
+                        <input
+                            type = "number"
+                            name = "zip"
+                            placeholder = "Zip"
+                            value = {selectedContact.address.zip}
+                            onChange = {e => {
+                                handleAddressChange(e.target.name, e.target.value);
+                            }}
+                            id = {`i-a-zC-${selectedContact.id}`}
+                        />
+                    </div>
+                    <input
+                        type = "text"
+                        name = "country"
+                        placeholder = "Country"
+                        value = {selectedContact.address.country}
+                        onChange = {e => {
+                            handleAddressChange(e.target.name, e.target.value);
+                        }}
+                        id = {`i-a-c-${selectedContact.id}`}
+                    />
                 </div>
         </div>
     );

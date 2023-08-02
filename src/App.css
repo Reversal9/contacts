@@ -61,8 +61,8 @@ body {
 
 .details {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  border-bottom: 1px solid #ccc;
 }
 
 .details-header {
@@ -73,18 +73,43 @@ body {
   padding-left: 8px;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.input-container-mini {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-container-mini input {
+  width: 50%;
+  border-bottom: 1px solid #ccc;
+}
+
+.input-container-mini input:not(:last-child) {
+  border-right: 1px solid #ccc
 }
 
 input {
   border: none;
-  border-bottom: 1px solid #ccc;
   outline: none;
   padding: 8px;
-  height: 25px;
+  height: 30px;
+  font-size: 18px;
 }
 
 input::placeholder {
   color: #999;
+}
+
+input:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.input-separator {
+  height: 100px;
+  background-color: #f2f2f6;
 }
 
 .header {
